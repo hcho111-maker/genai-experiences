@@ -355,13 +355,11 @@
     ╚══════════════════════════════════════════════════════════╝
   -->
   <form id="share-form"
-        action="https://formspree.io/f/xreodrqq"
+        action="https://script.google.com/macros/s/AKfycbzUN1ALBnxrTbxciLuTHJ_knAYqKsPZtWZGCAMFZJA4cQo5BWFksSesiL4HdhP4eGvk/exec"
         method="POST"
         onsubmit="handleSubmit(event)">
 
-    <!-- Hidden fields Formspree uses -->
-    <input type="hidden" name="_subject" value="New GenAI Experience Submission">
-    <input type="hidden" name="_replyto" id="hidden-replyto" value="">
+    <input type="hidden" id="hidden-replyto" value="">
     <input type="hidden" name="experience_type" id="hidden-type" value="not selected">
 
     <div class="form-card">
@@ -564,7 +562,7 @@
 </div><!-- /container -->
 
 <footer>
-  Submissions are stored securely via Formspree. Your data is never sold.
+  Submissions are stored securely via Google Sheets. Your data is never sold.
   Shared stories are anonymised unless you opt-in to credit. &nbsp;|&nbsp;
   <a href="mailto:your@email.com">Contact</a>
 </footer>
@@ -597,11 +595,25 @@
     btn.disabled    = true;
     btn.textContent = 'Sending…';
 
+    // Collect form data as JSON (required by Google Apps Script)
+    const data = {
+      experience_type: document.getElementById('hidden-type').value,
+      tool:            document.getElementById('tool').value,
+      use_case:        document.getElementById('use_case').value,
+      experience:      document.getElementById('experience').value,
+      insight:         document.getElementById('insight').value,
+      name:            document.getElementById('name').value,
+      email:           document.getElementById('email').value,
+      shareable:       document.getElementById('cb-shareable').checked  ? 'yes' : '',
+      credited:        document.getElementById('cb-credited').checked   ? 'yes' : '',
+      newsletter:      document.getElementById('cb-newsletter').checked ? 'yes' : '',
+    };
+
     try {
       const res = await fetch(form.action, {
         method:  'POST',
-        body:    new FormData(form),
-        headers: { 'Accept': 'application/json' },
+        body:    JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (res.ok) {
