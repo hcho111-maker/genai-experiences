@@ -610,22 +610,17 @@
     };
 
     try {
-      const res = await fetch(form.action, {
+      await fetch(form.action, {
         method:  'POST',
         body:    JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
+        mode:    'no-cors',
       });
 
-      if (res.ok) {
-        form.style.display    = 'none';
-        succ.style.display    = 'block';
-        document.querySelector('.type-grid').style.display = 'none';
-        document.querySelectorAll('.section-title')[0].style.display = 'none';
-      } else {
-        btn.disabled    = false;
-        btn.textContent = 'Share My Experience →';
-        alert('Something went wrong. Please try again or email us directly.');
-      }
+      // no-cors means we can't read the response, but the data is sent
+      form.style.display    = 'none';
+      succ.style.display    = 'block';
+      document.querySelector('.type-grid').style.display = 'none';
+      document.querySelectorAll('.section-title')[0].style.display = 'none';
     } catch(err) {
       btn.disabled    = false;
       btn.textContent = 'Share My Experience →';
