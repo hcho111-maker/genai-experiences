@@ -368,7 +368,7 @@
 
       <!-- TOOL USED -->
       <div class="form-row">
-        <label for="tool">Which AI tool? <span class="optional">(optional)</span></label>
+        <label for="tool">Which AI tool did you mainly use? <span class="optional">(optional)</span></label>
         <select name="tool" id="tool">
           <option value="">— select or skip —</option>
           <option>ChatGPT (OpenAI)</option>
@@ -378,8 +378,54 @@
           <option>Perplexity</option>
           <option>Midjourney / DALL-E / image AI</option>
           <option>Cursor / coding assistant</option>
-          <option>Other / multiple</option>
+          <option>Other</option>
         </select>
+      </div>
+
+      <!-- MULTIPLE TOOLS -->
+      <div class="form-row">
+        <label>Do you cross-check with multiple AI tools? <span class="optional">(optional)</span></label>
+        <div style="display:flex;gap:12px;margin-bottom:10px;">
+          <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="radio" name="multi_llm" id="multi-no" value="no" checked
+                   onchange="toggleMultiTools(false)"
+                   style="width:auto;padding:0;border:none;background:none;"> No
+          </label>
+          <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="radio" name="multi_llm" id="multi-yes" value="yes"
+                   onchange="toggleMultiTools(true)"
+                   style="width:auto;padding:0;border:none;background:none;"> Yes
+          </label>
+        </div>
+        <div id="multi-tools-list" style="display:none;background:#f8f9fa;border-radius:10px;padding:14px 18px;border:1.5px solid #e0e0e0;">
+          <p style="font-size:.83rem;color:#666;margin:0 0 10px;">Which ones? <span style="color:#999">(tick all that apply)</span></p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_chatgpt" value="ChatGPT"
+                     style="width:auto;padding:0;border:none;background:none;"> ChatGPT
+            </label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_claude" value="Claude"
+                     style="width:auto;padding:0;border:none;background:none;"> Claude
+            </label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_gemini" value="Gemini"
+                     style="width:auto;padding:0;border:none;background:none;"> Gemini
+            </label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_copilot" value="Copilot"
+                     style="width:auto;padding:0;border:none;background:none;"> Copilot
+            </label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_perplexity" value="Perplexity"
+                     style="width:auto;padding:0;border:none;background:none;"> Perplexity
+            </label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.9rem;">
+              <input type="checkbox" name="multi_tool_other" value="Other"
+                     style="width:auto;padding:0;border:none;background:none;"> Other
+            </label>
+          </div>
+        </div>
       </div>
 
       <!-- USE CASE -->
@@ -571,6 +617,11 @@
 
 <!-- ═══════════════════ JAVASCRIPT ════════════════════════════════ -->
 <script>
+  /* ── multi-tool toggle ──────────────────────────────────── */
+  function toggleMultiTools(show) {
+    document.getElementById('multi-tools-list').style.display = show ? 'block' : 'none';
+  }
+
   /* ── experience type selector ──────────────────────────── */
   function selectType(card) {
     document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
